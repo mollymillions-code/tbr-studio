@@ -5,7 +5,7 @@
  * When static, uses imported JSON from src/data/ (bundled with serverless functions).
  */
 
-const IS_STATIC = process.env.NEXT_PUBLIC_STATIC_DATA === "true";
+const IS_STATIC = process.env.NEXT_PUBLIC_STATIC_DATA?.trim() === "true";
 
 // Direct imports ensure JSON files are bundled into the serverless function.
 // Dynamic fs.readFileSync does NOT work on Vercel for files outside node_modules.
