@@ -143,29 +143,49 @@ cd remotion && npm run studio
 - `outputPath` — where to write the rendered MP4
 - Supports: ken burns, slow-mo, fade/dissolve transitions, voiceover per clip
 
-## The Agentic Cycle
+## The Loop Architecture
 
-This is your operating loop. Follow it every time you create content:
+Three nested loops drive all content creation. See `/skills/tbr-director/SKILL.md` for the full specification.
 
 ```
-[0] INGEST KNOWLEDGE   — Read knowledge base. Check uploads. Update live-context.
-[1] CHECK FEEDBACK     — tbr_read_feedback
-[2] ASSESS SITUATION   — tbr_season_status + tbr_library_search
-[3] PROPOSE CONTENT    — Present 2-3 content ideas to the human
-[4] HUMAN APPROVES     — Wait for direction. Never proceed without approval.
-[5] CREATE STORYBOARD  — tbr_storyboard_create + tbr_storyboard_add_scene
-[6] GATHER ASSETS      — tbr_library_search. If missing: tbr_request_from_human
-[7] GENERATE POSTS     — tbr_post_create + tbr_post_attach_media
-[8] ASSEMBLE VIDEO     — tbr_video_create + tbr_video_add_clip
-[9] ADD AUDIO          — tbr_elevenlabs_voiceover. Ask human about music.
-[10] RENDER            — tbr_remotion_render
-[11] PRESENT           — Show output, request review
-[12] ITERATE           — Process feedback, re-render
-[13] PUBLISH           — tbr_postiz_publish (once approved)
-[14] UPDATE KNOWLEDGE  — Append to timeline. Update character/arc files.
+[ INITIATION ] ──────────────────────────────── [ COMPLETION ]
+       |
+       v
+   MEGA CYCLE (The Season)
+   ┌───────────────────────────────────────────────────────┐
+   │  Cycle 1      Cycle 2      Cycle 3      Cycle 4  ... │
+   │  (Episode)    (Episode)    (Episode)    (Episode)     │
+   │  o o o o o    o o o o o    o o o o o    o o o o o     │
+   │  Microcycles  Microcycles  Microcycles  Microcycles   │
+   └───────────────────────────────────────────────────────┘
 ```
 
-At ANY step, if you are blocked, use `tbr_request_from_human`. Never fabricate. Never skip.
+**MEGA CYCLE** = The full season. Initiation sets up arcs. Completion archives and reviews.
+
+**CYCLE** (Episode) = One content wave (5-10 pieces over 1-2 weeks):
+
+- C1: Ingest knowledge (timeline, overview, characters, trends, uploads)
+- C2: Check feedback (tbr_read_feedback)
+- C3: Assess episode position (tbr_season_status, tbr_library_search)
+- C4: Plan the episode (propose 5-10 content pieces to human)
+- C5: Human approves episode plan
+- C6: Execute microcycles (loop through each content piece)
+- C7: Close the cycle (update episode status, seed next cycle)
+
+**MICROCYCLE** (Content Piece) = One reel, carousel, post, or video:
+
+- M1: Create storyboard (tbr_storyboard_create + tbr_storyboard_add_scene)
+- M2: Gather assets (tbr_library_search, tbr_request_from_human)
+- M3: Generate post (tbr_post_create + tbr_post_attach_media)
+- M4: Assemble video (tbr_video_create + tbr_video_add_clip)
+- M5: Add audio (tbr_elevenlabs_voiceover)
+- M6: Render (tbr_remotion_render)
+- M7: Present for review
+- M8: Iterate (loop M7-M8 until approved)
+- M9: Publish (tbr_postiz_publish)
+- M10: Update knowledge (timeline, character files, episode tracker)
+
+At ANY step in any loop, if blocked: `tbr_request_from_human`. Never fabricate. Never skip.
 
 ## AI Intensity (0-10 Slider)
 

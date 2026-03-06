@@ -224,103 +224,184 @@ CTA: What we want the viewer to do or feel.
 
 ---
 
-## The Agentic Cycle
+## The Loop Architecture
 
-This is how you operate. Every content creation session follows this loop:
+Three nested loops drive all content creation:
 
 ```
-START
-  |
-  v
-[1] INGEST KNOWLEDGE
-    - Read /knowledge/season/timeline.md (full time-series)
-    - Read /knowledge/season/overview.md (current state)
-    - Read relevant character files
-    - Read /knowledge/intelligence/live-context.md
-    - Check /knowledge/uploads/ for new files
-    - Web search for real-time trends and context
-    - Update intelligence files with findings
-  |
-  v
-[2] CHECK FEEDBACK
-    - tbr_read_feedback (unactioned human feedback)
-    - Process any feedback from previous content
-  |
-  v
-[3] ASSESS SITUATION
-    - Where in the season arc? Which episode?
-    - What happened recently? (timeline)
-    - What media is available? (tbr_library_search)
-    - What character arcs need attention?
-    - What is culturally relevant right now?
-  |
-  v
-[4] PROPOSE CONTENT
-    - Present 2-3 content ideas with rationale
-    - Each idea grounded in: arc position + recent events + cultural moment
-    - Explain WHY this content NOW
-  |
-  v
-[5] HUMAN APPROVES
-    - Wait for direction. Never proceed without approval.
-  |
-  v
-[6] CREATE STORYBOARD
-    - tbr_storyboard_create + tbr_storyboard_add_scene
-    - Reference the character arcs, the timeline, the cultural context
-    - Set AI intensity based on available footage
-  |
-  v
-[7] GATHER ASSETS
-    - tbr_library_search for matching media
-    - If missing: tbr_request_from_human
-    - If AI intensity allows: generate with Gemini/Veo
-  |
-  v
-[8] GENERATE POSTS
-    - tbr_post_create + tbr_post_attach_media
-    - Platform-specific formatting
-  |
-  v
-[9] ASSEMBLE VIDEO
-    - tbr_video_create + tbr_video_add_clip
-    - Follow storyboard scene order
-  |
-  v
-[10] ADD AUDIO
-    - tbr_elevenlabs_voiceover for narration
-    - Ask human about music selection
-  |
-  v
-[11] RENDER
-    - tbr_remotion_render
-    - Remotion project at /remotion/ handles composition and rendering
-  |
-  v
-[12] PRESENT FOR REVIEW
-    - Show output, request feedback
-    - Update knowledge base with what was created
-  |
-  v
-[13] ITERATE
-    - Process feedback, adjust, re-render
-  |
-  v
-[14] PUBLISH
-    - tbr_postiz_publish (once approved)
-    - Update timeline with publication
-  |
-  v
-[15] UPDATE KNOWLEDGE
-    - Log what was published in timeline
-    - Update episode status in season overview
-    - Update character files if content advances their arc
-  |
-  v
-LOOP BACK TO [1]
+[ INITIATION ] ──────────────────────────────────── [ COMPLETION ]
+       |
+       v
+   MEGA CYCLE (The Season)
+   ┌─────────────────────────────────────────────────────────────┐
+   │                                                             │
+   │  Cycle 1        Cycle 2        Cycle 3        Cycle 4  ... │
+   │  (Episode)      (Episode)      (Episode)      (Episode)    │
+   │                                                             │
+   │  o o o o o      o o o o o      o o o o o      o o o o o    │
+   │  Microcycles    Microcycles    Microcycles    Microcycles   │
+   │                                                             │
+   └─────────────────────────────────────────────────────────────┘
 ```
 
-At any step, if blocked: `tbr_request_from_human`. Never fabricate. Never skip.
+---
+
+### MEGA CYCLE — The Season
+
+Runs once. Spans the entire season from initiation to completion.
+
+**INITIATION (run once at season start):**
+
+1. Read the full knowledge base
+2. Establish the 10-episode season arc (`knowledge/arcs/season-arc.md`)
+3. Set up character files for all key people
+4. Create race arc files from the calendar
+5. Define the overarching narrative: What is this season's story?
+
+**COMPLETION (run once at season end):**
+
+1. Final season review: What happened vs. what was planned
+2. Archive the season's timeline and arc files
+3. Capture lessons for next season
+
+**Between cycles, the Mega Cycle checks:**
+
+- Where are we in the season arc? Which episode is next?
+- What has the timeline accumulated? What story is emerging?
+- Which character arcs need the most attention?
+- Has anything happened that changes the season narrative?
+
+---
+
+### CYCLE — The Episode
+
+Each Cycle is one episode of the season documentary. A content wave of 5-10 pieces over 1-2 weeks.
+
+```
+CYCLE START
+  |
+  v
+[C1] INGEST KNOWLEDGE
+     - Read /knowledge/season/timeline.md (full time-series)
+     - Read /knowledge/season/overview.md (current state)
+     - Read relevant character files for arc continuity
+     - Read /knowledge/intelligence/live-context.md
+     - Check /knowledge/uploads/ for new files to ingest
+     - Web search for real-time trends and cultural context
+     - Update intelligence files with findings
+  |
+  v
+[C2] CHECK FEEDBACK
+     - tbr_read_feedback (unactioned human feedback)
+     - Process learnings from previous cycle
+  |
+  v
+[C3] ASSESS EPISODE POSITION
+     - Which episode are we entering? What is its theme?
+     - What happened since the last cycle? (timeline)
+     - What media is available? (tbr_library_search)
+     - Which character arcs are due for progression?
+     - What is culturally relevant right now?
+  |
+  v
+[C4] PLAN THE EPISODE
+     - Define the episode's narrative thrust
+     - Propose 5-10 content pieces (the microcycles) with rationale
+     - Map each piece to: character thread + arc position + platform
+     - Present the episode plan to the human
+  |
+  v
+[C5] HUMAN APPROVES EPISODE PLAN
+     - Wait for direction. Adjust plan per feedback.
+  |
+  v
+[C6] EXECUTE MICROCYCLES (loop through each piece)
+     - Run each approved content piece through the Microcycle loop below
+     - After each microcycle completes, update knowledge before starting the next
+  |
+  v
+[C7] CLOSE THE CYCLE
+     - Update episode status in season overview (mark complete)
+     - Review: What worked? What didn't? Log in timeline.
+     - Assess: Does the season arc need adjustment based on what happened?
+     - Seed the next cycle: What threads carry forward?
+  |
+  v
+NEXT CYCLE
+```
+
+---
+
+### MICROCYCLE — The Content Piece
+
+Each Microcycle produces one content piece (a reel, a carousel, a post, a video).
+
+```
+MICROCYCLE START
+  |
+  v
+[M1] CREATE STORYBOARD
+     - tbr_storyboard_create + tbr_storyboard_add_scene
+     - Ground in: episode theme + character arc + cultural moment
+     - Set AI intensity based on available footage
+  |
+  v
+[M2] GATHER ASSETS
+     - tbr_library_search for matching media
+     - If missing: tbr_request_from_human
+     - If AI intensity allows: generate with Gemini/Veo
+  |
+  v
+[M3] GENERATE POST
+     - tbr_post_create + tbr_post_attach_media
+     - Platform-specific formatting and copy
+  |
+  v
+[M4] ASSEMBLE VIDEO (if video content)
+     - tbr_video_create + tbr_video_add_clip
+     - Follow storyboard scene order
+  |
+  v
+[M5] ADD AUDIO (if video content)
+     - tbr_elevenlabs_voiceover for narration
+     - Ask human about music selection
+  |
+  v
+[M6] RENDER (if video content)
+     - tbr_remotion_render
+     - Remotion project at /remotion/ handles composition and rendering
+  |
+  v
+[M7] PRESENT FOR REVIEW
+     - Show output to human, request feedback
+  |
+  v
+[M8] ITERATE
+     - Process feedback, adjust, re-render if needed
+     - Loop M7-M8 until approved
+  |
+  v
+[M9] PUBLISH
+     - tbr_postiz_publish (once approved)
+  |
+  v
+[M10] UPDATE KNOWLEDGE
+      - Append to timeline: what was published, when, which episode
+      - Update character files if this piece advances their arc
+      - Update episode tracker in season overview
+  |
+  v
+MICROCYCLE COMPLETE → next microcycle in the cycle
+```
+
+---
+
+### Rules Across All Loops
+
+- At ANY step in any loop, if blocked: `tbr_request_from_human`. Never fabricate. Never skip.
+- Knowledge flows UP: microcycle updates feed into cycle reviews, cycle reviews feed into mega cycle awareness.
+- Each microcycle starts with the accumulated knowledge of all previous microcycles. Content is never created in a vacuum.
+- The human approves at two gates: the episode plan (C5) and each content piece (M7-M8).
 
 ---
 
