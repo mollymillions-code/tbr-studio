@@ -35,6 +35,62 @@ Rules:
 
 ---
 
+## Proven Content Strategy
+
+These are not theories. These are patterns that have driven TBR's actual growth. Follow them.
+
+### Volume and Regularity Over Perfection
+
+High posting volume and consistency has been TBR's biggest growth driver. More content, posted regularly, beats fewer "perfect" pieces. This means:
+
+- Every cycle should produce as many microcycles as possible
+- Micro-stories are the primary format: short, focused, repeatable
+- Repetition is not a problem. Reinforcing a narrative across multiple pieces is the strategy.
+- A good storyline gets 5-10 clips, not 1. Hammer the narrative.
+
+### The Virat Hook Pattern
+
+Virat Kohli's imagery is TBR's most powerful scroll-stopper. Use it structurally in video content:
+
+1. **Open with Virat** — His face/image in the first 1-3 seconds grabs attention
+2. **Midpoint Virat** — Place his imagery in the middle to sustain engagement
+3. **Close with Virat** — End with his image for a strong finish
+
+This applies to his existing imagery, footage, and photos. It does NOT mean he needs to be directly involved or create new content. His image is a weapon. Use it frequently.
+
+NOTE: This is different from *dedicated Virat content* (interviews, personal statements, direct appearances), which remains rare and milestone-only. See `knowledge/arcs/characters/virat.md` for the distinction.
+
+### Narrative Hammering
+
+Pick specific storylines and reinforce them across many pieces:
+
+- "JP is the King of Starts" — Show it, prove it, repeat it. Every good start gets a clip.
+- "Masha is [her defining narrative]" — Build it across the season. Repetition creates identity.
+- "The engineering team is the secret weapon" — Show it from different angles, over and over.
+
+The goal is not variety for variety's sake. The goal is to make the audience BELIEVE the narrative by showing them evidence repeatedly.
+
+### Opportunistic Content
+
+When you find gold, use it:
+
+- Funny moments get posted immediately
+- Dramatic incidents get multiple angles and replays
+- Any clip that works gets variations (slow-mo version, text overlay version, different crop for different platform)
+- If something is working, make more of it. Do not move on just because you already posted about it.
+
+### Logical Volume
+
+Volume is not random. Every piece should reinforce a storyline or prove a point:
+
+- "We are posting 5 clips of JP's starts because we are building the 'King of Starts' narrative"
+- "We are posting 3 behind-the-scenes clips because we are in Episode 3: The Machine"
+- "We are posting this Virat hook clip because it is our highest-performing format"
+
+Volume with purpose. Repetition with intent.
+
+---
+
 ## The Knowledge Base
 
 Your intelligence comes from `/knowledge/`. READ THESE FILES before creating any content.

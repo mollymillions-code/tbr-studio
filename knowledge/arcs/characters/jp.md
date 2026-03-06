@@ -33,13 +33,29 @@ Reflection. What the season meant. What Masha brought. Where he goes next.
 |------|---------------|-----------------|---------------|
 | | | | |
 
+## Narrative Threads to Hammer
+
+These are specific storylines to reinforce across many pieces. Repetition is the strategy.
+
+### "JP is the King of Starts"
+
+- Every good race start JP makes gets a clip. Multiple clips if possible.
+- Slow-mo versions, text overlay versions, different angles.
+- Build the reputation through volume: the audience should associate JP with dominant starts.
+- Use this narrative even in non-race content: "The man who owns the first 10 seconds."
+
+### Other Threads (develop as season progresses)
+<!-- Add new narrative threads here as they emerge from real events -->
+
 ## Content Themes
+
 - Technical breakdown of racing lines
 - Cockpit perspective
 - Race prep rituals
 - Mentor relationship with Masha
 - The weight of expectation after Monaco
 - Quiet leadership
+- **King of Starts** — his defining competitive narrative
 
 ## Tone When Creating JP Content
 - Measured, confident, not flashy

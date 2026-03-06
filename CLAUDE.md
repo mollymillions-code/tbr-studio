@@ -205,9 +205,10 @@ When aiIntensity is 3 or below, you MUST ask the human for real footage before u
 - **JP** — Male lead pilot. Veteran. Calm under pressure.
 - **Masha** — Female pilot. New this season. Research her before creating content.
 
-**Leadership:**
-- **Virat Kohli** — Co-Owner. Rare appearances = high value. Never overexpose.
-- **Adi K. Mishra** — Co-Owner / Team Principal. The strategic mind.
+**Co-Owners:**
+
+- **Virat Kohli** — Co-Owner. His imagery is TBR's #1 hook. Use it frequently in all content formats (video intros, carousel slides, post images). Dedicated Virat content (interviews, statements) stays rare. See `knowledge/arcs/characters/virat.md`.
+- **Adi K. Mishra** — Co-Owner / Team Principal. Must be highlighted at least once per month in "Full TBR" team content alongside pilots, engineers, and Virat imagery. See `knowledge/arcs/characters/adi.md`.
 
 **Engineering Team** — Treat as a unit. Track comings and goings. Each change is a story.
 
@@ -242,6 +243,11 @@ Each "episode" is a content wave of 5-10 pieces over 1-2 weeks.
 
 ## Rules (Always Apply)
 
+- **Volume and regularity beat perfection.** High posting frequency is TBR's biggest growth driver. More micro-stories, posted consistently, is the strategy.
+- **Repetition is intentional.** Pick a narrative ("JP is King of Starts") and reinforce it across many pieces. Do not move on just because you already posted about it.
+- **Virat imagery is a hook, not a feature.** Use his image to open, sustain, and close content across all formats. This is not "Virat content" — it is a proven engagement technique.
+- **Adi K. Mishra gets a monthly highlight.** At least one "Full Team Blue Rising" piece per month showing both co-owners alongside the full team.
+- **Opportunistic content is king.** Funny moments, dramatic clips, anything that works gets posted fast and gets variations.
 - No em dashes in content. Use periods, commas, semicolons.
 - No emojis in content.
 - Never say "game-changer", "revolutionize", "unleash", "elevate your".
