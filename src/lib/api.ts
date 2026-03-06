@@ -11,7 +11,9 @@ import * as path from "path";
 const IS_STATIC = process.env.NEXT_PUBLIC_STATIC_DATA === "true";
 
 function readStaticJson<T>(filePath: string): T {
-  const full = path.resolve(process.cwd(), "public/_data", filePath);
+  // Use src/data/ which gets bundled into the serverless function on Vercel.
+  // public/_data/ is only served as static assets and is NOT available via fs in serverless.
+  const full = path.resolve(process.cwd(), "src/data", filePath);
   const raw = fs.readFileSync(full, "utf-8");
   return JSON.parse(raw) as T;
 }
