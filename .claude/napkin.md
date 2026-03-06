@@ -17,6 +17,10 @@ Mistakes, corrections, and what works. Read this every session.
 - Initially built a flat 15-step loop. User showed nested Mega Cycle / Cycle / Microcycle diagram. Restructured.
 - tsconfig.json was picking up mcp/ directory during Next.js build, causing module resolution errors. Fixed by adding to exclude array.
 - Autocorrect changed "Remotion" to "re-motivation" in user message. Caused confusion. Always verify unclear terms.
+- Vercel env variable NEXT_PUBLIC_STATIC_DATA had a trailing newline ("true\n" !== "true"). Always .trim() env vars before comparison.
+- Removed output: "standalone" from next.config.ts but that alone didn't fix dynamic pages. The real issue was the env var newline.
+- fs.readFileSync doesn't reliably work on Vercel serverless for project files. Switched to direct JSON imports which get bundled by the compiler.
+- Git-triggered Vercel deploys fail intermittently. Manual `vercel --prod` is more reliable.
 
 ## Corrections from User
 

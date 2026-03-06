@@ -11,6 +11,7 @@ import {
   Video,
   LayoutDashboard,
   FolderOpen,
+  Calendar,
   X,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -20,6 +21,7 @@ const sections = [
     label: "Overview",
     items: [
       { href: "/", icon: LayoutDashboard, label: "Dashboard" },
+      { href: "/calendar", icon: Calendar, label: "Season Calendar" },
     ],
   },
   {
