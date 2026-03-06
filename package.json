@@ -6,6 +6,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "prisma generate && next build",
+    "build:static": "NEXT_PUBLIC_STATIC_DATA=true next build",
+    "generate-static": "tsx scripts/generate-static-data.ts",
     "start": "next start",
     "postinstall": "prisma generate",
     "db:push": "prisma db push",

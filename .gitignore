@@ -9,3 +9,4 @@ prisma/dev.db
 mcp/tbr-studio-mcp/prisma
 .next/
 tbr-studio-*.png
+.vercel

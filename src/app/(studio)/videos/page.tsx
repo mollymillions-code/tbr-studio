@@ -1,4 +1,4 @@
-import { prisma } from "@/lib/db";
+import { getVideoProjects } from "@/lib/api";
 import { formatDate, formatDuration } from "@/lib/utils";
 import { Video, Clapperboard, Clock, Monitor, Info, Film } from "lucide-react";
 import Link from "next/link";
@@ -35,15 +35,7 @@ export default async function VideosPage({
   const params = await searchParams;
   const activeFormat = params.format ?? null;
 
-  const projects = await prisma.videoProject.findMany({
-    where: activeFormat ? { format: activeFormat } : undefined,
-    orderBy: { createdAt: "desc" },
-    include: {
-      _count: {
-        select: { clips: true },
-      },
-    },
-  });
+  const projects = await getVideoProjects(activeFormat ?? undefined) as any[];
 
   return (
     <div className="p-6 lg:p-8 max-w-7xl mx-auto">
@@ -79,7 +71,7 @@ export default async function VideosPage({
       {/* Project grid */}
       {projects.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {projects.map((project) => (
+          {projects.map((project: any) => (
             <Link
               key={project.id}
               href={`/videos/${project.id}`}

@@ -1,4 +1,4 @@
-import { prisma } from "@/lib/db";
+import { getVideoProject } from "@/lib/api";
 import { cn, formatDate, formatDuration } from "@/lib/utils";
 import {
   ArrowLeft,
@@ -45,19 +45,7 @@ export default async function VideoProjectPage({
 }) {
   const { id } = await params;
 
-  const project = await prisma.videoProject.findUnique({
-    where: { id },
-    include: {
-      clips: {
-        orderBy: { order: "asc" },
-        include: { mediaFile: true },
-      },
-      feedback: {
-        orderBy: { createdAt: "desc" },
-      },
-      storyboard: true,
-    },
-  });
+  const project = await getVideoProject(id) as any;
 
   if (!project) notFound();
 
@@ -186,7 +174,7 @@ export default async function VideoProjectPage({
 
         {project.clips.length > 0 ? (
           <div className="space-y-3">
-            {project.clips.map((clip, idx) => (
+            {project.clips.map((clip: any, idx: number) => (
               <div
                 key={clip.id}
                 className="relative border border-tbr-border rounded-lg p-4 hover:border-cyan-500/30 transition-colors"
@@ -312,7 +300,7 @@ export default async function VideoProjectPage({
 
         {project.feedback.length > 0 ? (
           <div className="space-y-3">
-            {project.feedback.map((fb) => (
+            {project.feedback.map((fb: any) => (
               <div
                 key={fb.id}
                 className={cn(

@@ -1,4 +1,4 @@
-import { prisma } from "@/lib/db";
+import { getPost } from "@/lib/api";
 import { cn, formatDate } from "@/lib/utils";
 import { notFound } from "next/navigation";
 import Link from "next/link";
@@ -127,19 +127,7 @@ export default async function PostDetailPage({
 }) {
   const { id } = await params;
 
-  const post = await prisma.post.findUnique({
-    where: { id },
-    include: {
-      media: {
-        include: { mediaFile: true },
-        orderBy: { order: "asc" },
-      },
-      feedback: {
-        orderBy: { createdAt: "desc" },
-      },
-      storyboard: true,
-    },
-  });
+  const post = await getPost(id) as any;
 
   if (!post) notFound();
 
@@ -279,7 +267,7 @@ export default async function PostDetailPage({
             Attached Media
           </h2>
           <div className="space-y-3">
-            {post.media.map((m) => {
+            {post.media.map((m: any) => {
               const Icon = mediaIcon(m.mediaFile.fileType);
               return (
                 <div
@@ -362,7 +350,7 @@ export default async function PostDetailPage({
             Feedback
           </h2>
           <div className="space-y-3">
-            {post.feedback.map((fb) => (
+            {post.feedback.map((fb: any) => (
               <div
                 key={fb.id}
                 className="bg-white/5 border border-tbr-border rounded-lg px-4 py-3"

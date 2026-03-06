@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Film, Image, AudioLines, Folder, Sparkles } from "lucide-react";
-import { prisma } from "@/lib/db";
+import { getMediaFiles } from "@/lib/api";
 import { cn, formatDate, formatDuration, formatFileSize } from "@/lib/utils";
 
 const FILE_TYPE_FILTER = ["video", "photo", "audio"] as const;
@@ -58,15 +58,8 @@ export default async function LibraryPage({
   const { type } = await searchParams;
   const activeType = isValidFileType(type) ? type : null;
 
-  const where = activeType ? { fileType: activeType } : {};
-
-  const [files, totalCount] = await Promise.all([
-    prisma.mediaFile.findMany({
-      where,
-      orderBy: { createdAt: "desc" },
-    }),
-    prisma.mediaFile.count({ where }),
-  ]);
+  const files = await getMediaFiles(activeType ?? undefined) as any[];
+  const totalCount = files.length;
 
   const pageTitle = activeType
     ? TYPE_CONFIG[activeType].label
@@ -119,7 +112,7 @@ export default async function LibraryPage({
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-          {files.map((file) => {
+          {files.map((file: any) => {
             const config = TYPE_CONFIG[file.fileType as FileType] ?? TYPE_CONFIG.video;
             const Icon = config.icon;
 

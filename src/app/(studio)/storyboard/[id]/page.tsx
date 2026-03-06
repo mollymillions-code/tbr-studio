@@ -1,4 +1,4 @@
-import { prisma } from "@/lib/db";
+import { getStoryboard } from "@/lib/api";
 import { cn, formatDate } from "@/lib/utils";
 import {
   ArrowLeft,
@@ -55,23 +55,6 @@ const SOURCE_TYPE_STYLES: Record<string, string> = {
   mixed: "bg-amber-500/20 text-amber-300",
 };
 
-async function getStoryboard(id: string) {
-  return prisma.storyboard.findUnique({
-    where: { id },
-    include: {
-      scenes: {
-        orderBy: { order: "asc" },
-      },
-      _count: {
-        select: {
-          posts: true,
-          videoProjects: true,
-        },
-      },
-    },
-  });
-}
-
 function AIIntensityBar({ value }: { value: number }) {
   const pct = Math.round((value / 10) * 100);
   return (
@@ -105,7 +88,7 @@ export default async function StoryboardDetailPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const storyboard = await getStoryboard(id);
+  const storyboard = await getStoryboard(id) as any;
 
   if (!storyboard) {
     notFound();
@@ -251,7 +234,7 @@ export default async function StoryboardDetailPage({
             {/* Timeline line */}
             <div className="absolute left-5 top-0 bottom-0 w-px bg-purple-500/20" />
 
-            {storyboard.scenes.map((scene, idx) => (
+            {storyboard.scenes.map((scene: any, idx: number) => (
               <div key={scene.id} className="relative flex gap-4 pb-6 last:pb-0">
                 {/* Timeline node */}
                 <div className="relative z-10 flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-purple-500/40 bg-tbr-card text-sm font-bold text-purple-300">
@@ -365,10 +348,10 @@ export default async function StoryboardDetailPage({
             </div>
             <div>
               <p className="text-sm font-semibold">
-                {storyboard._count.posts}
+                {storyboard.posts?.length ?? storyboard._count?.posts ?? 0}
               </p>
               <p className="text-xs text-tbr-gray">
-                {storyboard._count.posts === 1 ? "Post" : "Posts"} linked
+                {(storyboard.posts?.length ?? storyboard._count?.posts ?? 0) === 1 ? "Post" : "Posts"} linked
               </p>
             </div>
           </div>
@@ -378,10 +361,10 @@ export default async function StoryboardDetailPage({
             </div>
             <div>
               <p className="text-sm font-semibold">
-                {storyboard._count.videoProjects}
+                {storyboard.videoProjects?.length ?? storyboard._count?.videoProjects ?? 0}
               </p>
               <p className="text-xs text-tbr-gray">
-                {storyboard._count.videoProjects === 1
+                {(storyboard.videoProjects?.length ?? storyboard._count?.videoProjects ?? 0) === 1
                   ? "Video Project"
                   : "Video Projects"}{" "}
                 linked

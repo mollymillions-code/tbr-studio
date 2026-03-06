@@ -1,4 +1,4 @@
-import { prisma } from "@/lib/db";
+import { getStoryboards } from "@/lib/api";
 import { cn, formatDate } from "@/lib/utils";
 import { BookOpen, Sparkles, Target } from "lucide-react";
 import Link from "next/link";
@@ -35,17 +35,6 @@ const PLATFORM_LABELS: Record<string, string> = {
   tiktok: "TikTok",
 };
 
-async function getStoryboards() {
-  return prisma.storyboard.findMany({
-    orderBy: { updatedAt: "desc" },
-    include: {
-      _count: {
-        select: { scenes: true },
-      },
-    },
-  });
-}
-
 function AIIntensityBar({ value }: { value: number }) {
   const pct = Math.round((value / 10) * 100);
   return (
@@ -64,7 +53,7 @@ function AIIntensityBar({ value }: { value: number }) {
 }
 
 export default async function StoryboardPage() {
-  const storyboards = await getStoryboards();
+  const storyboards = await getStoryboards() as any[];
 
   return (
     <div className="p-6 lg:p-8 max-w-7xl mx-auto">
@@ -122,7 +111,7 @@ export default async function StoryboardPage() {
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {storyboards.map((sb) => (
+          {storyboards.map((sb: any) => (
             <Link
               key={sb.id}
               href={`/storyboard/${sb.id}`}

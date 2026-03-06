@@ -1,4 +1,4 @@
-import { prisma } from "@/lib/db";
+import { getPosts } from "@/lib/api";
 import { formatDate, cn } from "@/lib/utils";
 import Link from "next/link";
 import {
@@ -122,11 +122,7 @@ export default async function PostsPage({
   const { type } = await searchParams;
   const activeFilter = type ?? "all";
 
-  const posts = await prisma.post.findMany({
-    where:
-      activeFilter !== "all" ? { postType: activeFilter } : undefined,
-    orderBy: { createdAt: "desc" },
-  });
+  const posts = await getPosts(activeFilter !== "all" ? activeFilter : undefined) as any[];
 
   return (
     <div className="p-6 lg:p-8 max-w-7xl mx-auto">
@@ -182,7 +178,7 @@ export default async function PostsPage({
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {posts.map((post) => {
+          {posts.map((post: any) => {
             const typeInfo = postTypeConfig[post.postType];
             const platformInfo = platformConfig[post.platform];
             const statusInfo = statusConfig[post.status] ?? statusConfig.DRAFT;

@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, Film, Image, AudioLines, Sparkles } from "lucide-react";
-import { prisma } from "@/lib/db";
+import { getMediaFile } from "@/lib/api";
 import { cn, formatDate, formatDuration, formatFileSize } from "@/lib/utils";
 
 type FileType = "video" | "photo" | "audio";
@@ -61,7 +61,7 @@ export default async function MediaFileDetailPage({
 }) {
   const { id } = await params;
 
-  const file = await prisma.mediaFile.findUnique({ where: { id } });
+  const file = await getMediaFile(id) as any;
 
   if (!file) notFound();
 

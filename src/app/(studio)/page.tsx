@@ -1,4 +1,4 @@
-import { prisma } from "@/lib/db";
+import { getStats } from "@/lib/api";
 import {
   Film,
   Image,
@@ -8,38 +8,6 @@ import {
   Video,
 } from "lucide-react";
 import Link from "next/link";
-
-async function getStats() {
-  const [mediaCount, storyboardCount, postCount, videoCount] =
-    await Promise.all([
-      prisma.mediaFile.count(),
-      prisma.storyboard.count(),
-      prisma.post.count(),
-      prisma.videoProject.count(),
-    ]);
-
-  const mediaCounts = await prisma.mediaFile.groupBy({
-    by: ["fileType"],
-    _count: true,
-  });
-
-  const videoFiles =
-    mediaCounts.find((m) => m.fileType === "video")?._count ?? 0;
-  const photoFiles =
-    mediaCounts.find((m) => m.fileType === "photo")?._count ?? 0;
-  const audioFiles =
-    mediaCounts.find((m) => m.fileType === "audio")?._count ?? 0;
-
-  return {
-    mediaCount,
-    videoFiles,
-    photoFiles,
-    audioFiles,
-    storyboardCount,
-    postCount,
-    videoCount,
-  };
-}
 
 const statCards = [
   { key: "videoFiles", label: "Video Clips", icon: Film, href: "/library?type=video", color: "text-blue-400" },
