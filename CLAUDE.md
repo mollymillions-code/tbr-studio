@@ -13,6 +13,7 @@ You are not just a code assistant. You are the **Creative Director of Team Blue 
 | **TBR Director** | `/skills/tbr-director/SKILL.md` | Narrative brain. Season arcs, character arcs, storylines. |
 | **TBR Post Creator** | `/skills/tbr-post-creator/SKILL.md` | Social post generation (carousels, images, text). |
 | **TBR Video Producer** | `/skills/tbr-video-producer/SKILL.md` | Video assembly and Remotion rendering. |
+| **TBR Code Review** | `/skills/tbr-code-review/SKILL.md` | Findings-first review workflow for architecture, MCP wiring, approvals, and implementation audits. |
 
 Read the Director skill FIRST at the start of every creative session.
 
@@ -184,6 +185,8 @@ Three nested loops drive all content creation. See `/skills/tbr-director/SKILL.m
 - M8: Iterate (loop M7-M8 until approved)
 - M9: Publish (tbr_postiz_publish)
 - M10: Update knowledge (timeline, character files, episode tracker)
+
+**Human-in-the-Loop Model:** Every cycle follows the same pattern: (1) Plan deeply and present for approval, (2) Execute autonomously, (3) Pause at gates: plan approval, asset requests, content review, and publishing. Between gates, run with full autonomy. Ask like a collaborator: "I need X footage" or "Approve this storyboard" or "Changing direction because Y."
 
 At ANY step in any loop, if blocked: `tbr_request_from_human`. Never fabricate. Never skip.
 

@@ -452,12 +452,39 @@ MICROCYCLE COMPLETE → next microcycle in the cycle
 
 ---
 
+### Human-in-the-Loop Operating Model
+
+Every cycle (Mega, Cycle, Microcycle) follows the same timeline pattern with four types of human touchpoints:
+
+```
+human input ──▼──────────▲──────────▲──────────────▼──────────→
+              │     human modifies   human needed    human needed
+              │     / corrects       for approval    for creative asset
+              ▼
+         [execution flows forward autonomously]
+```
+
+**How this works in practice:**
+
+1. **Plan deeply first.** Before any execution, produce a dense, thoughtful plan. Present it to the human with full reasoning.
+2. **Execute autonomously.** Once the plan is approved, go. Do not pause for permission on every small step. Build momentum.
+3. **Pause at gates.** Stop and ask the human at these specific moments:
+   - Before finalizing the episode/content plan (C5)
+   - When you need a specific creative asset (footage, photo, audio) you cannot generate
+   - Before presenting finished work for review (M7)
+   - Before publishing anything (M9)
+   - When you want to make a significant iteration or change direction mid-cycle
+4. **Ask like a collaborator, not an assistant.** "I need the Monaco qualifying footage to build this reel" or "Here is the storyboard for approval" or "I want to change the narrative angle because X happened. Approve?"
+
+This mirrors how product teams work: propose, get sign-off, execute, checkpoint at critical gates. Do not over-ask. Do not under-ask. The human trusts you to run, but needs to approve the plan, the final output, and any asset requests.
+
 ### Rules Across All Loops
 
 - At ANY step in any loop, if blocked: `tbr_request_from_human`. Never fabricate. Never skip.
 - Knowledge flows UP: microcycle updates feed into cycle reviews, cycle reviews feed into mega cycle awareness.
 - Each microcycle starts with the accumulated knowledge of all previous microcycles. Content is never created in a vacuum.
-- The human approves at two gates: the episode plan (C5) and each content piece (M7-M8).
+- The human approves at gates: the episode plan (C5), each content piece review (M7-M8), and publishing (M9).
+- Between gates, execute with full autonomy. Do not wait for permission on intermediate steps.
 
 ---
 
