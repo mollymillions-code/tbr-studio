@@ -1,0 +1,241 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+// ─── Media Library ───────────────────────────────────────────────
+
+model MediaFile {
+  id          String   @id @default(cuid())
+  fileName    String
+  filePath    String
+  fileType    String   // video, photo, audio
+  mimeType    String?
+  fileSize    Int?     // bytes
+  duration    Float?   // seconds, for video/audio
+  width       Int?
+  height      Int?
+
+  // Categorization
+  sourceType  String   // race, b_roll, documentary, event, interview, ambient
+  tags        String?  // JSON array of tags
+  description String?
+  season      String?  // e.g. "2025", "2026"
+  event       String?  // e.g. "Monaco GP", "Jeddah"
+  location    String?
+
+  // AI-generated flag
+  aiGenerated Boolean  @default(false)
+  aiModel     String?  // gemini, veo3, nano_banana
+
+  // Thumbnail
+  thumbnailPath String?
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  videoClips     VideoClip[]
+  storyboardMedia StoryboardMedia[]
+  postMedia       PostMedia[]
+}
+
+// ─── Storyboard ──────────────────────────────────────────────────
+
+model Storyboard {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  format      String   // short_video, post, carousel, reel, story
+  status      String   @default("DRAFT") // DRAFT, IN_PROGRESS, REVIEW, APPROVED, PUBLISHED
+
+  // AI control
+  aiIntensity Int      @default(3) // 0-10 slider
+
+  // Narrative
+  storyline   String?  // full narrative text
+  hook        String?  // opening hook
+  cta         String?  // call to action
+  tone        String?  // hype, documentary, emotional, technical
+  targetPlatform String? // instagram, twitter, linkedin, youtube, tiktok
+
+  // Metadata
+  metadata    String?  // JSON blob for extra data
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  scenes      StoryboardScene[]
+  media       StoryboardMedia[]
+  posts       Post[]
+  videoProjects VideoProject[]
+}
+
+model StoryboardScene {
+  id          String   @id @default(cuid())
+  storyboardId String
+  storyboard  Storyboard @relation(fields: [storyboardId], references: [id])
+
+  order       Int
+  title       String?
+  description String   // what happens in this scene
+  duration    Float?   // target duration in seconds
+  voiceover   String?  // narration text
+  textOverlay String?  // on-screen text
+  visualNotes String?  // visual direction notes
+  transition  String?  // cut, fade, dissolve, etc.
+
+  // Source preference
+  sourceType  String   @default("real") // real, ai, mixed
+  aiPrompt    String?  // prompt for AI generation if needed
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model StoryboardMedia {
+  id          String   @id @default(cuid())
+  storyboardId String
+  storyboard  Storyboard @relation(fields: [storyboardId], references: [id])
+  mediaFileId String
+  mediaFile   MediaFile  @relation(fields: [mediaFileId], references: [id])
+
+  role        String   // hero, background, overlay, audio_track, b_roll
+  notes       String?
+
+  createdAt   DateTime @default(now())
+}
+
+// ─── Posts ───────────────────────────────────────────────────────
+
+model Post {
+  id          String   @id @default(cuid())
+  storyboardId String?
+  storyboard  Storyboard? @relation(fields: [storyboardId], references: [id])
+
+  title       String
+  postType    String   // single_image, carousel, text, video_clip, story, reel
+  platform    String   // instagram, twitter, linkedin, youtube, tiktok
+  status      String   @default("DRAFT") // DRAFT, REVIEW, APPROVED, SCHEDULED, PUBLISHED
+
+  // Content
+  caption     String?
+  hashtags    String?  // JSON array
+  slides      String?  // JSON array of slide objects for carousels
+
+  // Scheduling
+  scheduledAt DateTime?
+  publishedAt DateTime?
+  postizJobId String?  // Postiz integration ID
+
+  // Metadata
+  metadata    String?  // JSON blob
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  media       PostMedia[]
+  feedback    PostFeedback[]
+}
+
+model PostMedia {
+  id        String    @id @default(cuid())
+  postId    String
+  post      Post      @relation(fields: [postId], references: [id])
+  mediaFileId String
+  mediaFile MediaFile @relation(fields: [mediaFileId], references: [id])
+
+  order     Int       @default(0)
+  role      String    @default("primary") // primary, slide_1, slide_2, etc.
+  createdAt DateTime  @default(now())
+}
+
+model PostFeedback {
+  id        String   @id @default(cuid())
+  postId    String
+  post      Post     @relation(fields: [postId], references: [id])
+
+  author    String   // human name
+  comment   String
+  actioned  Boolean  @default(false)
+
+  createdAt DateTime @default(now())
+}
+
+// ─── Video Projects ──────────────────────────────────────────────
+
+model VideoProject {
+  id          String   @id @default(cuid())
+  storyboardId String?
+  storyboard  Storyboard? @relation(fields: [storyboardId], references: [id])
+
+  title       String
+  status      String   @default("DRAFT") // DRAFT, EDITING, RENDERING, REVIEW, APPROVED, PUBLISHED
+  format      String   @default("reel") // reel, short, story, highlight
+
+  // Output
+  outputPath  String?
+  duration    Float?   // final duration in seconds
+  resolution  String?  // e.g. "1080x1920"
+
+  // Remotion
+  remotionCompositionId String?
+  renderJobId String?
+
+  // Metadata
+  metadata    String?
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  clips       VideoClip[]
+  feedback    VideoFeedback[]
+}
+
+model VideoClip {
+  id            String   @id @default(cuid())
+  videoProjectId String
+  videoProject  VideoProject @relation(fields: [videoProjectId], references: [id])
+  mediaFileId   String?
+  mediaFile     MediaFile?   @relation(fields: [mediaFileId], references: [id])
+
+  order         Int
+  label         String?
+
+  // Trim
+  trimStart     Float?   // seconds
+  trimEnd       Float?   // seconds
+
+  // Overlays
+  voiceoverText String?  // narration for this clip
+  textOverlay   String?  // on-screen text
+  effect        String?  // ken_burns, slow_mo, speed_ramp, none
+
+  // AI generation
+  aiGenerated   Boolean  @default(false)
+  aiPrompt      String?
+  aiModel       String?
+
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model VideoFeedback {
+  id            String   @id @default(cuid())
+  videoProjectId String
+  videoProject  VideoProject @relation(fields: [videoProjectId], references: [id])
+
+  author        String
+  comment       String
+  timecode      Float?   // optional timestamp reference
+  actioned      Boolean  @default(false)
+
+  createdAt     DateTime @default(now())
+}

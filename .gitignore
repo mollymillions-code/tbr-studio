@@ -1,0 +1,11 @@
+node_modules/
+.next/
+out/
+*.db
+*.db-journal
+.env
+.env.local
+prisma/dev.db
+mcp/tbr-studio-mcp/prisma
+.next/
+tbr-studio-*.png

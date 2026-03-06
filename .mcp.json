@@ -1,0 +1,18 @@
+{
+  "mcpServers": {
+    "tbr-studio": {
+      "command": "npx",
+      "args": ["tsx", "mcp/tbr-studio-mcp/src/index.ts"],
+      "cwd": "/Users/kankanaray/Desktop/TBR Studio/tbr-studio",
+      "env": {
+        "ELEVENLABS_API_KEY": "",
+        "GEMINI_API_KEY": ""
+      }
+    },
+    "postiz": {
+      "command": "npx",
+      "args": ["postiz-mcp"],
+      "env": {}
+    }
+  }
+}
