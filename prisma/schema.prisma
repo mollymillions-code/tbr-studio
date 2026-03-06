@@ -7,6 +7,60 @@ datasource db {
   url      = "file:./dev.db"
 }
 
+// ─── Season Structure ────────────────────────────────────────────
+
+model Narrative {
+  id          String   @id @default(cuid())
+  key         String   @unique  // e.g. "season-intro", "race-weekend"
+  label       String             // e.g. "Season Intro"
+  color       String             // hex color
+  description String?
+  sortOrder   Int      @default(0)
+
+  episodes    Episode[]
+  createdAt   DateTime @default(now())
+}
+
+model Race {
+  id        String   @id @default(cuid())
+  round     Int      @unique
+  title     String
+  location  String
+  country   String
+  startDate DateTime
+  endDate   DateTime
+  status    String   @default("upcoming") // upcoming, live, completed
+  result    String?  // JSON blob for race results (position, points, notes)
+  season    String   @default("2026")
+
+  episodes  Episode[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Episode {
+  id           String   @id @default(cuid())
+  number       Int      @unique
+  title        String
+  theme        String?
+  status       String   @default("PLANNED") // PLANNED, ACTIVE, IN_PROGRESS, COMPLETED
+  startDate    DateTime?
+  endDate      DateTime?
+  targetPieces Int      @default(5)
+
+  narrativeId  String?
+  narrative    Narrative? @relation(fields: [narrativeId], references: [id])
+  raceId       String?
+  race         Race?      @relation(fields: [raceId], references: [id])
+
+  storyboards  Storyboard[]
+  posts        Post[]
+  videoProjects VideoProject[]
+
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
 // ─── Media Library ───────────────────────────────────────────────
 
 model MediaFile {
@@ -55,6 +109,10 @@ model Storyboard {
 
   // AI control
   aiIntensity Int      @default(3) // 0-10 slider
+
+  // Episode link
+  episodeId   String?
+  episode     Episode? @relation(fields: [episodeId], references: [id])
 
   // Narrative
   storyline   String?  // full narrative text
@@ -123,6 +181,10 @@ model Post {
   platform    String   // instagram, twitter, linkedin, youtube, tiktok
   status      String   @default("DRAFT") // DRAFT, REVIEW, APPROVED, SCHEDULED, PUBLISHED
 
+  // Episode link
+  episodeId   String?
+  episode     Episode? @relation(fields: [episodeId], references: [id])
+
   // Content
   caption     String?
   hashtags    String?  // JSON array
@@ -178,6 +240,10 @@ model VideoProject {
   title       String
   status      String   @default("DRAFT") // DRAFT, EDITING, RENDERING, REVIEW, APPROVED, PUBLISHED
   format      String   @default("reel") // reel, short, story, highlight
+
+  // Episode link
+  episodeId   String?
+  episode     Episode? @relation(fields: [episodeId], references: [id])
 
   // Output
   outputPath  String?

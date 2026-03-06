@@ -136,6 +136,7 @@ server.tool(
     hook: z.string().optional().describe("Opening hook (first 3 seconds / first line)"),
     cta: z.string().optional().describe("Call to action"),
     description: z.string().optional(),
+    episodeId: z.string().optional().describe("Link to an episode for season tracking"),
   },
   async (params) => {
     const sb = await prisma.storyboard.create({
@@ -149,11 +150,12 @@ server.tool(
         hook: params.hook,
         cta: params.cta,
         description: params.description,
+        episodeId: params.episodeId,
       },
     });
 
     return {
-      content: [{ type: "text" as const, text: JSON.stringify({ id: sb.id, title: sb.title, aiIntensity: sb.aiIntensity, message: "Storyboard created" }) }],
+      content: [{ type: "text" as const, text: JSON.stringify({ id: sb.id, title: sb.title, aiIntensity: sb.aiIntensity, episodeId: params.episodeId, message: "Storyboard created" }) }],
     };
   }
 );
@@ -237,6 +239,7 @@ server.tool(
       text: z.string(),
     })).optional().describe("Carousel slides"),
     storyboardId: z.string().optional().describe("Link to storyboard"),
+    episodeId: z.string().optional().describe("Link to an episode for season tracking"),
     scheduledAt: z.string().optional().describe("ISO date for scheduling"),
   },
   async (params) => {
@@ -249,6 +252,7 @@ server.tool(
         hashtags: params.hashtags ? JSON.stringify(params.hashtags) : null,
         slides: params.slides ? JSON.stringify(params.slides) : null,
         storyboardId: params.storyboardId,
+        episodeId: params.episodeId,
         scheduledAt: params.scheduledAt ? new Date(params.scheduledAt) : null,
       },
     });
@@ -293,6 +297,7 @@ server.tool(
     title: z.string().describe("Video project title"),
     format: z.enum(["reel", "short", "story", "highlight"]).default("reel"),
     storyboardId: z.string().optional().describe("Link to storyboard"),
+    episodeId: z.string().optional().describe("Link to an episode for season tracking"),
     resolution: z.string().default("1080x1920").describe("Resolution (WxH)"),
   },
   async (params) => {
@@ -301,6 +306,7 @@ server.tool(
         title: params.title,
         format: params.format,
         storyboardId: params.storyboardId,
+        episodeId: params.episodeId,
         resolution: params.resolution,
       },
     });
@@ -963,6 +969,117 @@ server.tool(
             clips: v._count.clips,
           })),
         }, null, 2),
+      }],
+    };
+  }
+);
+
+// ─── Episode & Season Tools ─────────────────────────────────────
+
+server.tool(
+  "tbr_episode_list",
+  "List all episodes with their status, narrative, and content piece counts",
+  {},
+  async () => {
+    const episodes = await prisma.episode.findMany({
+      include: {
+        narrative: true,
+        race: true,
+        _count: { select: { storyboards: true, posts: true, videoProjects: true } },
+      },
+      orderBy: { number: "asc" },
+    });
+
+    return {
+      content: [{
+        type: "text" as const,
+        text: JSON.stringify(episodes.map((ep) => ({
+          id: ep.id,
+          number: ep.number,
+          title: ep.title,
+          theme: ep.theme,
+          status: ep.status,
+          narrative: ep.narrative?.key,
+          narrativeLabel: ep.narrative?.label,
+          raceRound: ep.race?.round,
+          raceTitle: ep.race?.title,
+          startDate: ep.startDate?.toISOString().split("T")[0],
+          endDate: ep.endDate?.toISOString().split("T")[0],
+          targetPieces: ep.targetPieces,
+          contentPieces: ep._count.storyboards + ep._count.posts + ep._count.videoProjects,
+          storyboards: ep._count.storyboards,
+          posts: ep._count.posts,
+          videos: ep._count.videoProjects,
+        })), null, 2),
+      }],
+    };
+  }
+);
+
+server.tool(
+  "tbr_episode_update",
+  "Update an episode's status or target pieces",
+  {
+    episodeId: z.string().describe("Episode ID"),
+    status: z.enum(["PLANNED", "ACTIVE", "IN_PROGRESS", "COMPLETED"]).optional().describe("New status"),
+    targetPieces: z.number().optional().describe("Update target number of content pieces"),
+    theme: z.string().optional().describe("Update episode theme"),
+  },
+  async (params) => {
+    const data: Record<string, unknown> = {};
+    if (params.status) data.status = params.status;
+    if (params.targetPieces) data.targetPieces = params.targetPieces;
+    if (params.theme) data.theme = params.theme;
+
+    const ep = await prisma.episode.update({
+      where: { id: params.episodeId },
+      data,
+      include: { narrative: true },
+    });
+
+    return {
+      content: [{
+        type: "text" as const,
+        text: JSON.stringify({
+          id: ep.id,
+          number: ep.number,
+          title: ep.title,
+          status: ep.status,
+          targetPieces: ep.targetPieces,
+          message: "Episode updated",
+        }),
+      }],
+    };
+  }
+);
+
+server.tool(
+  "tbr_race_update",
+  "Update a race status or result",
+  {
+    round: z.number().describe("Race round number"),
+    status: z.enum(["upcoming", "live", "completed"]).optional(),
+    result: z.string().optional().describe("JSON string with race results (position, points, notes)"),
+  },
+  async (params) => {
+    const data: Record<string, unknown> = {};
+    if (params.status) data.status = params.status;
+    if (params.result) data.result = params.result;
+
+    const race = await prisma.race.update({
+      where: { round: params.round },
+      data,
+    });
+
+    return {
+      content: [{
+        type: "text" as const,
+        text: JSON.stringify({
+          round: race.round,
+          title: race.title,
+          status: race.status,
+          message: "Race updated",
+        }),
       }],
     };
   }

@@ -112,8 +112,66 @@ async function main() {
     fs.writeFileSync(path.join(mediaDetailDir, `${mf.id}.json`), JSON.stringify(mf));
   }
 
+  // Season data (calendar)
+  const [races, episodes, narratives] = await Promise.all([
+    prisma.race.findMany({ orderBy: { round: "asc" } }),
+    prisma.episode.findMany({
+      include: {
+        narrative: true,
+        race: true,
+        _count: { select: { storyboards: true, posts: true, videoProjects: true } },
+      },
+      orderBy: { number: "asc" },
+    }),
+    prisma.narrative.findMany({ orderBy: { sortOrder: "asc" } }),
+  ]);
+
+  const narrativeMap: Record<string, { label: string; color: string }> = {};
+  for (const n of narratives) narrativeMap[n.key] = { label: n.label, color: n.color };
+
+  const calendarJson = {
+    season: "2026",
+    races: races.map((r) => ({
+      round: r.round,
+      title: r.title,
+      location: r.location,
+      country: r.country,
+      startDate: r.startDate.toISOString().split("T")[0],
+      endDate: r.endDate.toISOString().split("T")[0],
+      status: r.status,
+    })),
+    episodes: episodes.map((ep) => ({
+      id: ep.id,
+      number: ep.number,
+      title: ep.title,
+      status: ep.status,
+      startDate: ep.startDate?.toISOString().split("T")[0] ?? "",
+      endDate: ep.endDate?.toISOString().split("T")[0] ?? "",
+      theme: ep.theme,
+      contentPieces: ep._count.storyboards + ep._count.posts + ep._count.videoProjects,
+      storyboardCount: ep._count.storyboards,
+      postCount: ep._count.posts,
+      videoCount: ep._count.videoProjects,
+      targetPieces: ep.targetPieces,
+      narrative: ep.narrative?.key ?? "",
+      narrativeLabel: ep.narrative?.label ?? "",
+      narrativeColor: ep.narrative?.color ?? "",
+      raceRound: ep.race?.round ?? null,
+    })),
+    narratives: narrativeMap,
+  };
+
+  fs.writeFileSync(path.join(OUT_DIR, "calendar.json"), JSON.stringify(calendarJson));
+
+  // Also write to src/data for import-based access
+  const srcDataDir = path.resolve("src/data");
+  if (fs.existsSync(srcDataDir)) {
+    fs.writeFileSync(path.join(srcDataDir, "calendar.json"), JSON.stringify(calendarJson, null, 2));
+  }
+
   console.log(`Static data generated in ${OUT_DIR}`);
   console.log(`  Media: ${mediaFiles.length}, Storyboards: ${storyboards.length}, Posts: ${posts.length}, Videos: ${videos.length}`);
+  console.log(`  Races: ${races.length}, Episodes: ${episodes.length}, Narratives: ${narratives.length}`);
 
   await prisma.$disconnect();
 }
