@@ -647,37 +647,43 @@ server.tool(
     const outDir = path.dirname(path.resolve(PROJECT_ROOT, outPath));
     if (!fs.existsSync(outDir)) fs.mkdirSync(outDir, { recursive: true });
 
-    // Generate a Remotion composition spec for this project
+    // Build a Remotion CompositionSpec (matches /remotion/src/types.ts)
+    const width = parseInt(vp.resolution?.split("x")[0] || "1080");
+    const height = parseInt(vp.resolution?.split("x")[1] || "1920");
+    const fullOutPath = path.resolve(PROJECT_ROOT, outPath);
+
     const spec = {
-      compositionId: `TBR-${vp.id}`,
-      width: parseInt(vp.resolution?.split("x")[0] || "1080"),
-      height: parseInt(vp.resolution?.split("x")[1] || "1920"),
+      projectId: vp.id,
+      title: vp.title,
+      width,
+      height,
       fps: 30,
-      clips: vp.clips.map((clip) => ({
-        order: clip.order,
-        label: clip.label,
-        source: clip.mediaFile?.filePath || null,
-        aiGenerated: clip.aiGenerated,
-        aiPrompt: clip.aiPrompt,
-        trimStart: clip.trimStart,
-        trimEnd: clip.trimEnd,
-        effect: clip.effect,
-        voiceoverText: clip.voiceoverText,
-        textOverlay: clip.textOverlay,
-      })),
-      storyboard: vp.storyboard
-        ? {
-            title: vp.storyboard.title,
-            tone: vp.storyboard.tone,
-            aiIntensity: vp.storyboard.aiIntensity,
-            scenes: vp.storyboard.scenes.map((s) => ({
-              order: s.order,
-              title: s.title,
-              transition: s.transition,
-              duration: s.duration,
-            })),
-          }
-        : null,
+      clips: vp.clips.map((clip) => {
+        // Calculate clip duration from trim points or storyboard scene
+        const scene = vp.storyboard?.scenes.find((s) => s.order === clip.order);
+        let duration = 5; // default 5s
+        if (clip.trimStart != null && clip.trimEnd != null) {
+          duration = clip.trimEnd - clip.trimStart;
+        } else if (scene?.duration != null) {
+          duration = scene.duration;
+        }
+
+        return {
+          order: clip.order,
+          label: clip.label,
+          mediaPath: clip.mediaFile ? path.resolve(PROJECT_ROOT, clip.mediaFile.filePath) : undefined,
+          duration,
+          trimStart: clip.trimStart ?? undefined,
+          trimEnd: clip.trimEnd ?? undefined,
+          effect: (clip.effect as "none" | "ken_burns" | "slow_mo" | "speed_ramp") || "none",
+          textOverlay: clip.textOverlay || undefined,
+          textPosition: "bottom-third" as const,
+          voiceoverPath: undefined, // Set after ElevenLabs generation
+          transition: (clip.effect === "ken_burns" ? "dissolve" : "cut") as "cut" | "fade" | "dissolve",
+          aiGenerated: clip.aiGenerated,
+        };
+      }),
+      outputPath: fullOutPath,
     };
 
     // Write the composition spec for Remotion to consume
@@ -690,9 +696,13 @@ server.tool(
       data: {
         status: "RENDERING",
         outputPath: outPath,
-        remotionCompositionId: spec.compositionId,
+        remotionCompositionId: `TBR-${vp.id}`,
       },
     });
+
+    // Try to trigger the Remotion render
+    const remotionDir = path.resolve(PROJECT_ROOT, "remotion");
+    const renderCmd = `cd "${remotionDir}" && npx tsx src/render.ts --spec "${specPath}"`;
 
     return {
       content: [{
@@ -700,11 +710,13 @@ server.tool(
         text: JSON.stringify({
           videoProjectId: vp.id,
           compositionSpec: specPath,
-          outputPath: outPath,
+          outputPath: fullOutPath,
           status: "RENDERING",
           clipCount: vp.clips.length,
-          message: `Composition spec written to ${specPath}. Remotion render queued. Use the Remotion MCP or CLI to render: npx remotion render ${spec.compositionId} ${outPath}`,
-          nextStep: "The composition spec is ready. To complete the render, either: (1) Call the Remotion MCP render tool, or (2) Run the Remotion CLI with the spec file.",
+          resolution: `${width}x${height}`,
+          renderCommand: renderCmd,
+          message: `Composition spec written to ${specPath}. Run the render with:\n${renderCmd}`,
+          nextStep: "Run the render command above. If Remotion deps are not installed, run 'npm install' in /remotion/ first.",
         }),
       }],
     };

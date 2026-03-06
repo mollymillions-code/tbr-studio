@@ -76,11 +76,79 @@ npx tsx scripts/db-writer.ts <command> [flags]
 ```
 See the full command reference in the db-writer script.
 
+## Knowledge Base — Your Memory
+
+The `/knowledge/` directory is your persistent intelligence system. Read it at the start of every session.
+
+```
+knowledge/
+├── season/
+│   ├── overview.md        — Race calendar, standings, episode tracker
+│   └── timeline.md        — Chronological event log (append-only)
+├── arcs/
+│   ├── season-arc.md      — 10-episode season arc structure
+│   ├── race-arcs/
+│   │   └── TEMPLATE.md    — Per-race mini-movie template
+│   └── characters/
+│       ├── jp.md           — JP's arc, per-race tracker
+│       ├── masha.md        — Masha's arc, research protocol
+│       ├── team.md         — Engineering team roster and arc
+│       ├── virat.md        — Virat Kohli rules (max 2-3 pieces/season)
+│       └── adi.md          — Adi K. Mishra context
+├── intelligence/
+│   ├── live-context.md    — Trending topics, viral formats, cultural moments
+│   └── competitors.md     — E1 competitor tracking
+└── uploads/
+    └── README.md          — Drop files here for context ingestion
+```
+
+**Before every content session:**
+
+1. Read `knowledge/season/timeline.md` for what has happened
+2. Read `knowledge/season/overview.md` for current episode position
+3. Read the relevant character files for arc continuity
+4. Web search to update `knowledge/intelligence/live-context.md`
+5. Check `knowledge/uploads/` for new files to ingest
+
+**After every content session:**
+
+- Append new events to `knowledge/season/timeline.md`
+- Update per-race arc files with what happened
+- Update character files with new developments
+
+## Remotion — Video Rendering Pipeline
+
+The `/remotion/` directory contains the programmatic video renderer (React-based).
+
+**How it works:**
+
+1. The MCP tool `tbr_remotion_render` generates a `CompositionSpec` JSON file
+2. The Remotion renderer reads the spec and produces an MP4 video
+3. The spec defines clips, transitions, text overlays, music, voiceover
+
+**Render command:**
+```bash
+cd remotion && npx tsx src/render.ts --spec /path/to/composition-spec.json
+```
+
+**Remotion Studio (preview):**
+```bash
+cd remotion && npm run studio
+```
+
+**CompositionSpec contract** (defined in `remotion/src/types.ts`):
+
+- `clips[]` — ordered scenes with media paths, durations, effects, text overlays
+- `musicPath` / `musicVolume` — background music
+- `outputPath` — where to write the rendered MP4
+- Supports: ken burns, slow-mo, fade/dissolve transitions, voiceover per clip
+
 ## The Agentic Cycle
 
 This is your operating loop. Follow it every time you create content:
 
 ```
+[0] INGEST KNOWLEDGE   — Read knowledge base. Check uploads. Update live-context.
 [1] CHECK FEEDBACK     — tbr_read_feedback
 [2] ASSESS SITUATION   — tbr_season_status + tbr_library_search
 [3] PROPOSE CONTENT    — Present 2-3 content ideas to the human
@@ -94,6 +162,7 @@ This is your operating loop. Follow it every time you create content:
 [11] PRESENT           — Show output, request review
 [12] ITERATE           — Process feedback, re-render
 [13] PUBLISH           — tbr_postiz_publish (once approved)
+[14] UPDATE KNOWLEDGE  — Append to timeline. Update character/arc files.
 ```
 
 At ANY step, if you are blocked, use `tbr_request_from_human`. Never fabricate. Never skip.
@@ -126,17 +195,17 @@ IMPORTANT: Always web search to research any team member before creating content
 
 ## Season Arc Structure
 
-The season is a 10-episode documentary told through social content:
-1. Origins — Season kickoff
-2. New Blood — New team members
-3. The Machine — RaceBird tech
-4. Race Week 1 — First race
-5. Adversity — A setback
-6. Breakthrough — A win
-7. The Mission — Conservation focus
-8. Race Week 2 — Second race
-9. The Push — Championship pressure
-10. The Reckoning — Season finale
+Two arc categories drive all content:
+
+1. **Season Story (Macro)** — 10-episode documentary arc across the full season. See `knowledge/arcs/season-arc.md`.
+2. **Per-Race Story (Micro)** — Each race is a mini-movie. See `knowledge/arcs/race-arcs/TEMPLATE.md`.
+
+Three character threads weave through both:
+- **JP** — `knowledge/arcs/characters/jp.md`
+- **Masha** — `knowledge/arcs/characters/masha.md`
+- **The Team** — `knowledge/arcs/characters/team.md`
+
+Episodes are **iterative**: episodes 4-10 cannot be pre-written. They must be built from what ACTUALLY HAPPENED, using the timeline at `knowledge/season/timeline.md`.
 
 Each "episode" is a content wave of 5-10 pieces over 1-2 weeks.
 

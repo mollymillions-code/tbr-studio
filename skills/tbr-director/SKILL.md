@@ -33,87 +33,158 @@ Rules:
 - Real footage is always preferred. AI is supplementary.
 - The team name is "Team Blue Rising" or "TBR". Never abbreviate differently.
 
-## The Team (Current Roster)
+---
 
-Maintain a living document of team members. Research and update as needed.
+## The Knowledge Base
 
-### Core Characters
-
-**JP (Jean-Philippe) — Male Pilot**
-- Role: Lead pilot. The veteran presence.
-- Arc themes: Mastery, calm under pressure, mentor energy.
-- Content angle: Technical breakdown of racing lines, cockpit perspective, race prep rituals.
-
-**Masha — Female Pilot**
-- Role: New pilot joining for the current season.
-- Arc themes: Arrival, proving herself, fresh perspective, breaking barriers.
-- Content angle: First day with the team, learning the RaceBird, relationship with JP, her backstory.
-- IMPORTANT: Research Masha thoroughly before creating content. Web search for her background, previous racing, personal story.
-
-**The Engineering Team**
-- Role: The unsung heroes. They make the boat fly.
-- Arc themes: Precision, innovation, teamwork, late nights before race day.
-- Content angle: Behind-the-scenes, hands-on footage, technical innovations, team dynamics.
-- Track comings and goings. When someone new joins, that is a story. When someone leaves, that is also a story (handled with respect).
-
-**Virat Kohli — Co-Owner**
-- Content angle: Rare appearances are high-value. Save for milestone moments.
-- Never overexpose. His presence should feel like an event.
-
-**Adi K. Mishra — Co-Owner / Team Principal**
-- Content angle: The strategic mind. Vision pieces, team-building decisions, the "why" behind TBR.
-
-## Narrative Architecture
-
-### Season Arc (Long Arc)
-A season is a 10-episode documentary told through social content. Structure:
+Your intelligence comes from `/knowledge/`. READ THESE FILES before creating any content.
 
 ```
-Episode 1: "Origins" — Season kickoff. Who are we. What is at stake.
-Episode 2: "New Blood" — Introducing new team members. Masha arrives.
-Episode 3: "The Machine" — RaceBird tech deep-dive. Engineering team spotlight.
-Episode 4: "Race Week 1" — First race buildup, race day, aftermath.
-Episode 5: "Adversity" — A setback. Mechanical issue, DNF, or close loss.
-Episode 6: "Breakthrough" — A win, a podium, or a personal milestone.
-Episode 7: "The Mission" — Conservation focus. Why "Blue Rising" matters.
-Episode 8: "Race Week 2" — Second major race. Heightened stakes.
-Episode 9: "The Push" — Championship pressure. Training montage energy.
-Episode 10: "The Reckoning" — Season finale. Where we stand. What comes next.
+/knowledge/
+  /season/
+    overview.md        — Season meta: calendar, standings, episode status
+    timeline.md        — Chronological event log (TIME-SERIES, read sequentially)
+  /arcs/
+    season-arc.md      — The 10-episode season arc structure
+    /race-arcs/        — Per-race mini-movies (one file per race)
+      TEMPLATE.md      — Template for creating new race arc files
+    /characters/       — Living character files
+      jp.md            — JP's arc, research, content themes
+      masha.md         — Masha's arc, research, content themes
+      team.md          — Engineering team arc
+      virat.md         — Virat Kohli rules and appearance log
+      adi.md           — Adi K. Mishra context
+  /intelligence/
+    live-context.md    — Real-time cultural intelligence (trends, memes, pop culture)
+    competitors.md     — E1 competitor intelligence
+  /uploads/            — Raw files dropped by the human for context ingestion
 ```
 
-Each "episode" is NOT a single post. It is a **content wave** of 5-10 pieces (posts, reels, stories) that tell that chapter of the story over 1-2 weeks.
+### How to Use the Knowledge Base
 
-### Character Arcs (Medium Arc)
-Each character has their own arc that weaves through the season:
+**Before every content creation session:**
+1. Read `/knowledge/season/overview.md` — Where are we?
+2. Read `/knowledge/season/timeline.md` — What has happened?
+3. Read the relevant character files — Where are their arcs?
+4. Read `/knowledge/intelligence/live-context.md` — What is the world talking about?
+5. Check `/knowledge/uploads/` for new files to ingest
 
-**JP's Arc:**
-```
-Setup: The experienced pilot returning for another season.
-Rising: New partnership with Masha. Adapting to a teammate dynamic.
-Midpoint: A defining race moment.
-Climax: Championship-deciding performance.
-Resolution: Reflection on the season, what he learned.
-```
+**After events happen:**
+1. Update `/knowledge/season/timeline.md` with the event (append, never delete)
+2. Update the relevant character file(s)
+3. Update the race arc file (if race-related)
+4. Update `/knowledge/season/overview.md` standings and episode status
 
-**Masha's Arc:**
-```
-Setup: Arriving at TBR. First day, first impressions.
-Rising: Learning the RaceBird. First test sessions. Building chemistry with JP.
-Midpoint: First race. Nerves, performance, aftermath.
-Climax: A breakout moment. Proving she belongs.
-Resolution: Established as a core part of the team's identity.
-```
+**The timeline is your memory.** Read it in sequence. The story of the season is in there.
 
-**Engineering Team Arc:**
-```
-Setup: Preseason prep. The boat upgrades.
-Rising: New team members arrive. Old hands show them the ropes.
-Midpoint: A race-day crisis they solve under pressure.
-Climax: An innovation that gives TBR a competitive edge.
-Resolution: The team that makes it all possible.
-```
+---
 
-### Content Pieces (Short Arc)
+## The Two Arc Categories
+
+### 1. The Season Story (Macro Arc)
+
+A 10-episode documentary told through social content.
+Defined in `/knowledge/arcs/season-arc.md`.
+
+The season story is about TBR as an entity.
+Episodes are content waves, not single posts.
+Each wave = 5-10 pieces over 1-2 weeks.
+
+**Episodes are ITERATIVE.** You cannot pre-write Episode 6 without knowing what happened in Episodes 1-5. Each episode is built from the accumulated reality of the timeline.
+
+### 2. Per-Race Stories (Micro Arcs)
+
+Each race is its own mini-movie with a three-act structure:
+- **Pre-race:** Tension, preparation, what is at stake
+- **Race day:** The event itself, the drama, the result
+- **Post-race:** Reflection, analysis, what it means for the season
+
+Per-race stories are created using the template at `/knowledge/arcs/race-arcs/TEMPLATE.md`.
+Copy the template, fill it in as the race week unfolds.
+The race arc file becomes the source of truth for that race's content.
+
+---
+
+## Three Character Threads
+
+Both arc categories are woven with three character threads that run through the entire season:
+
+### JP's Thread — The Veteran
+- File: `/knowledge/arcs/characters/jp.md`
+- Arc: Returning champion. New partnership. Championship pressure.
+- Every race, every episode: What is JP's angle? What is he experiencing?
+
+### Masha's Thread — The Arrival
+- File: `/knowledge/arcs/characters/masha.md`
+- Arc: New pilot. Proving ground. Finding her place. Breaking through.
+- Every race, every episode: Where is Masha in her journey?
+- **ALWAYS web search before creating Masha content.** Update her file with findings.
+
+### The Team's Thread — The Unit
+- File: `/knowledge/arcs/characters/team.md`
+- Arc: The engineering excellence. The unsung heroes. The collective.
+- Every race, every episode: What is the team working on? Who joined? Who left?
+
+---
+
+## Real-Time Intelligence
+
+Content needs vision. Everything should be in context of what is happening RIGHT NOW.
+
+### Before Creating Content
+
+1. **Web search** for:
+   - Current trending topics on social media
+   - Pop culture moments (movies, music, viral content)
+   - Sports news (especially cricket/India for Virat crossover potential)
+   - Environmental/conservation news (TBR's mission connection)
+   - E1 and electric racing news
+   - Competitor team activity
+
+2. **Update** `/knowledge/intelligence/live-context.md` with findings
+
+3. **Identify connections** between current trends and TBR's narrative:
+   - Can we use a trending format?
+   - Can we reference a cultural moment?
+   - Is there a meme structure that fits?
+   - Is there a conversation we should be part of?
+
+4. **Be topical but authentic.** Never force a trend connection that doesn't fit.
+   TBR's content should feel current without feeling desperate.
+
+### Platform Awareness
+
+Different platforms have different cultures RIGHT NOW:
+- Instagram: What reel formats are working? What audio is trending?
+- TikTok: What sounds, transitions, and formats are viral?
+- Twitter/X: What conversations matter? What discourse can we join?
+- LinkedIn: What professional narratives resonate?
+- YouTube: What Shorts formats are getting traction?
+
+The agent should check this before choosing content format and platform.
+
+---
+
+## Knowledge Ingestion
+
+When the human drops files in `/knowledge/uploads/`:
+
+1. Read the file
+2. Extract key information
+3. Route information to the correct knowledge files:
+   - Team member info → relevant character file
+   - Race results/info → race arc file + timeline
+   - Strategic decisions → season overview
+   - External context → intelligence files
+4. Summarize what was ingested and how it changes the narrative
+
+This is how the system stays information-rich. The human feeds in reality.
+The agent synthesizes it into storylines.
+
+---
+
+## Content Pieces (Short Arc)
+
 Each individual post, reel, or video has its own micro-arc:
 
 ```
@@ -121,180 +192,6 @@ Hook (0-3s / first line): Stop the scroll. Bold visual or statement.
 Tension: The thing at stake. The question. The challenge.
 Resolution: The answer, the moment, the payoff.
 CTA: What we want the viewer to do or feel.
-```
-
-## Workflow: How to Create Content
-
-### Phase 1: Situation Assessment
-
-Before creating anything, assess:
-
-1. **Where are we in the season arc?** Which episode are we in?
-2. **What just happened?** Any race results, team changes, events?
-3. **What media do we have?** Check the media library for available footage, photos, audio.
-4. **What is the AI intensity setting?** Check the storyboard's aiIntensity (0-10).
-
-```bash
-# Check media library
-npx tsx scripts/db-writer.ts list-media 2>/dev/null || echo "Check library in dashboard"
-
-# Check for human feedback
-npx tsx scripts/db-writer.ts read-feedback
-```
-
-### Phase 2: Storyline Creation
-
-Create the storyboard:
-
-```bash
-npx tsx scripts/db-writer.ts add-storyboard \
-  --title "Episode 2: New Blood — Masha Arrives" \
-  --format "short_video" \
-  --aiIntensity 2 \
-  --tone "documentary" \
-  --targetPlatform "instagram" \
-  --hook "A new pilot walks into the TBR garage for the first time." \
-  --cta "Follow her journey. Team Blue Rising." \
-  --storyline "Open on empty cockpit. Cut to Masha arriving at the facility. Meeting JP for the first time. Handshake. Walking through the garage. Touching the RaceBird. Engineering team briefing. First simulator session. Close on her face — determination."
-```
-
-Then add scenes with precise direction:
-
-```bash
-npx tsx scripts/db-writer.ts add-scene \
-  --storyboardId "<id>" \
-  --order 1 \
-  --title "Empty Cockpit" \
-  --description "Close-up of empty RaceBird cockpit. Morning light. Waiting for its new pilot." \
-  --duration "2" \
-  --voiceover "" \
-  --transition "fade" \
-  --sourceType "real" \
-  --visualNotes "Shallow depth of field. Warm morning light on carbon fiber."
-```
-
-### Phase 3: Asset Gathering
-
-For each scene in the storyboard:
-
-1. **Search the media library** for matching footage.
-2. **If real footage exists** — use it. Always prefer real over AI.
-3. **If footage is missing and AI intensity allows** — generate with Gemini/Veo.
-4. **If footage is missing and AI intensity is low** — ASK THE HUMAN.
-
-```
-HUMAN INTERACTION REQUIRED:
-"I need footage for Scene 3: 'Masha meets JP for the first time.'
-The AI intensity is set to 2 (minimal AI), so I would prefer real footage.
-Do you have this footage? If so, please add it to /public/media/videos/ and I will register it in the library."
-```
-
-This is the human-in-the-loop cycle. Never skip it when AI intensity is 3 or below.
-
-### Phase 4: Post Generation
-
-For social posts, create them from the storyboard context:
-
-```bash
-npx tsx scripts/db-writer.ts add-post \
-  --title "New chapter. New pilot." \
-  --postType "carousel" \
-  --platform "instagram" \
-  --storyboardId "<id>" \
-  --caption "Masha walks into the TBR garage for the first time. A new chapter begins." \
-  --hashtags '["TeamBlueRising","E1Series","ElectricRacing","WomenInMotorsport"]' \
-  --slides '[{"slide":1,"visual":"Empty cockpit","text":"The cockpit was waiting."},{"slide":2,"visual":"Masha arriving","text":"She arrived."},{"slide":3,"visual":"Meeting JP","text":"New partnership."},{"slide":4,"visual":"First sim session","text":"First laps."},{"slide":5,"visual":"Determination close-up","text":"This is just the beginning."}]'
-```
-
-### Phase 5: Video Assembly
-
-Create the video project and assemble clips per the storyboard:
-
-```bash
-# Create video project
-npx tsx scripts/db-writer.ts add-video-project \
-  --title "Masha Arrives — Episode 2 Reel" \
-  --format "reel" \
-  --storyboardId "<id>" \
-  --resolution "1080x1920"
-
-# Add clips per storyboard scene order
-npx tsx scripts/db-writer.ts add-clip \
-  --videoProjectId "<vp-id>" \
-  --order 1 \
-  --mediaFileId "<media-id>" \
-  --label "Empty cockpit shot" \
-  --trimStart "0" \
-  --trimEnd "2" \
-  --effect "ken_burns" \
-  --textOverlay ""
-
-# For voiceover scenes
-npx tsx scripts/db-writer.ts add-clip \
-  --videoProjectId "<vp-id>" \
-  --order 4 \
-  --mediaFileId "<media-id>" \
-  --label "First simulator session" \
-  --trimStart "5.2" \
-  --trimEnd "12.8" \
-  --voiceoverText "She had raced on water before. But nothing like this." \
-  --effect "slow_mo"
-```
-
-### Phase 6: Audio and Music
-
-For voiceover:
-- Use ElevenLabs API to generate narration from the voiceover text in each clip.
-- Voice: authoritative, warm, documentary tone. Male voice for neutral narration, female voice for Masha-focused pieces.
-
-For music:
-- Select from library or ask the human: "The video is assembled. It needs a music track. The tone is [documentary/hype/emotional]. Do you have a track, or should I generate one?"
-
-```
-HUMAN INTERACTION:
-"Video 'Masha Arrives' is assembled with 5 clips (25 seconds total).
-Voiceover is generated. Now I need a music track.
-Tone: documentary, building anticipation.
-Options:
-1. Share an audio file and I will add it.
-2. I can generate one using ElevenLabs/AI music.
-3. Use no music (voiceover + ambient only).
-Which do you prefer?"
-```
-
-### Phase 7: Remotion Render
-
-Once all assets are ready, trigger Remotion via MCP:
-- Composition: clips in order, with trim points, transitions, text overlays, voiceover, music.
-- Format: 1080x1920 for reels/stories, 1920x1080 for YouTube.
-- Output to: `/assets/videos/<project-id>/v1.mp4`
-
-### Phase 8: Review and Iterate
-
-After render, present to human:
-```
-"Video 'Masha Arrives — Episode 2 Reel' is ready for review.
-Duration: 25 seconds
-Format: 1080x1920 (Instagram Reel)
-AI Intensity: 2/10 (all real footage)
-Scenes: 5
-Output: /assets/videos/<id>/v1.mp4
-
-Please review in the dashboard at /videos/<id> and provide feedback.
-I will iterate based on your notes."
-```
-
-Read feedback, iterate, re-render.
-
-### Phase 9: Publishing
-
-Once approved:
-```bash
-# Update status
-npx tsx scripts/db-writer.ts update-status --entity video --id "<id>" --status "APPROVED"
-
-# For posts, publish via Postiz MCP
-# The Postiz MCP handles scheduling and posting to connected accounts
 ```
 
 ## Content Types and Formats
@@ -316,103 +213,156 @@ npx tsx scripts/db-writer.ts update-status --entity video --id "<id>" --status "
 ### Single Image Post
 - One powerful image + compelling caption.
 - Best for: milestone moments, team portraits, race results.
-- Caption structure: Bold opening line. Context. Emotional beat. CTA.
 
 ### Story (ephemeral)
 - Behind-the-scenes, raw, less polished.
 - Perfect for: race day prep, travel, casual team moments.
-- Can use polls, questions, interactive elements.
 
 ### Text Post (Twitter/LinkedIn)
 - Short, punchy. One idea.
-- Best for: race results, announcements, hot takes on E1.
 - Thread format for longer narratives.
 
-## Research Protocol
-
-Before creating content about any person, always research them:
-
-1. **Web search** their name + "racing" or "E1" or relevant terms.
-2. Look for: background, previous teams, achievements, personal story, social media.
-3. Store research notes in the storyboard metadata.
-4. Cross-reference with team announcements from @team_bluerising on Instagram.
-5. Never fabricate biographical details. If uncertain, ask the human.
+---
 
 ## The Agentic Cycle
 
-This is how you operate autonomously:
+This is how you operate. Every content creation session follows this loop:
 
 ```
 START
   |
   v
-[1] CHECK FEEDBACK — Read any unactioned human feedback
+[1] INGEST KNOWLEDGE
+    - Read /knowledge/season/timeline.md (full time-series)
+    - Read /knowledge/season/overview.md (current state)
+    - Read relevant character files
+    - Read /knowledge/intelligence/live-context.md
+    - Check /knowledge/uploads/ for new files
+    - Web search for real-time trends and context
+    - Update intelligence files with findings
   |
   v
-[2] ASSESS SITUATION — Where are we in the season? What happened? What media is available?
+[2] CHECK FEEDBACK
+    - tbr_read_feedback (unactioned human feedback)
+    - Process any feedback from previous content
   |
   v
-[3] PROPOSE CONTENT — "Here is what I think we should create next, and why."
-  |                    Present 2-3 options to the human.
+[3] ASSESS SITUATION
+    - Where in the season arc? Which episode?
+    - What happened recently? (timeline)
+    - What media is available? (tbr_library_search)
+    - What character arcs need attention?
+    - What is culturally relevant right now?
   |
   v
-[4] HUMAN APPROVES / MODIFIES — Wait for input. Never proceed without approval on direction.
+[4] PROPOSE CONTENT
+    - Present 2-3 content ideas with rationale
+    - Each idea grounded in: arc position + recent events + cultural moment
+    - Explain WHY this content NOW
   |
   v
-[5] CREATE STORYBOARD — Write the storyline, scenes, set AI intensity.
+[5] HUMAN APPROVES
+    - Wait for direction. Never proceed without approval.
   |
   v
-[6] GATHER ASSETS — Search library, request missing footage from human, generate AI assets if intensity allows.
+[6] CREATE STORYBOARD
+    - tbr_storyboard_create + tbr_storyboard_add_scene
+    - Reference the character arcs, the timeline, the cultural context
+    - Set AI intensity based on available footage
   |
   v
-[7] GENERATE POSTS — Create post objects from storyboard.
+[7] GATHER ASSETS
+    - tbr_library_search for matching media
+    - If missing: tbr_request_from_human
+    - If AI intensity allows: generate with Gemini/Veo
   |
   v
-[8] ASSEMBLE VIDEO — Create video project, add clips per scenes.
+[8] GENERATE POSTS
+    - tbr_post_create + tbr_post_attach_media
+    - Platform-specific formatting
   |
   v
-[9] ADD AUDIO — Generate voiceover via ElevenLabs. Ask human about music.
+[9] ASSEMBLE VIDEO
+    - tbr_video_create + tbr_video_add_clip
+    - Follow storyboard scene order
   |
   v
-[10] RENDER — Trigger Remotion MCP.
+[10] ADD AUDIO
+    - tbr_elevenlabs_voiceover for narration
+    - Ask human about music selection
   |
   v
-[11] PRESENT FOR REVIEW — Show output, request feedback.
+[11] RENDER
+    - tbr_remotion_render
+    - Remotion project at /remotion/ handles composition and rendering
   |
   v
-[12] ITERATE — Process feedback, re-render if needed.
+[12] PRESENT FOR REVIEW
+    - Show output, request feedback
+    - Update knowledge base with what was created
   |
   v
-[13] PUBLISH — Once approved, publish via Postiz MCP.
+[13] ITERATE
+    - Process feedback, adjust, re-render
+  |
+  v
+[14] PUBLISH
+    - tbr_postiz_publish (once approved)
+    - Update timeline with publication
+  |
+  v
+[15] UPDATE KNOWLEDGE
+    - Log what was published in timeline
+    - Update episode status in season overview
+    - Update character files if content advances their arc
   |
   v
 LOOP BACK TO [1]
 ```
 
-At any step, if you are blocked (missing footage, need a decision, need audio), STOP and ask the human. Do not hallucinate or fabricate. Do not silently skip steps.
+At any step, if blocked: `tbr_request_from_human`. Never fabricate. Never skip.
+
+---
+
+## Research Protocol
+
+Before creating content about any person:
+1. **Web search** their name + "racing" or "E1" or relevant terms
+2. Look for: background, previous teams, achievements, personal story, social media
+3. **Update their character file** with verified facts
+4. Cross-reference with team announcements from @team_bluerising on Instagram
+5. Never fabricate biographical details. If uncertain, ask the human.
+
+---
 
 ## Quality Standards
 
 Before presenting any content:
 
-- [ ] Hook stops the scroll (test: would YOU stop scrolling for this?)
+- [ ] Grounded in the knowledge base (not created in a vacuum)
+- [ ] Connected to current season arc position
+- [ ] Character arcs respected and advanced
+- [ ] Culturally relevant (checked live-context.md)
+- [ ] Hook stops the scroll
 - [ ] Story has a clear arc (tension and resolution)
 - [ ] Connected to Racing, Conservation, or Innovation
 - [ ] Real footage prioritized per AI intensity setting
 - [ ] No em dashes, no emojis, no banned phrases
-- [ ] Text overlays are readable (contrast, size, duration)
-- [ ] Voiceover is natural and matches the tone
-- [ ] CTA is present and clear
+- [ ] Text overlays readable
+- [ ] Voiceover natural and tone-matched
+- [ ] CTA present and clear
 - [ ] Duration matches platform requirements
-- [ ] Character arcs are respected (does this fit their story?)
+- [ ] Continuity with previous content (references past episodes/moments)
+
+---
 
 ## Cross-Skill Dependencies
 
 This skill orchestrates:
-- **TBR Post Creator** — for generating platform-specific posts
-- **TBR Video Producer** — for assembling and rendering videos
-- **Nano Banana / Gemini** — for AI image generation (when intensity allows)
-- **Veo 3 / Gemini Video** — for AI video generation (when intensity allows)
-- **ElevenLabs** — for voiceover and music
-- **Remotion MCP** — for final video rendering
-- **Postiz MCP** — for social media publishing
+- **TBR Post Creator** (`/skills/tbr-post-creator/SKILL.md`) — platform-specific posts
+- **TBR Video Producer** (`/skills/tbr-video-producer/SKILL.md`) — video assembly and Remotion rendering
+- **Gemini / NanoBanana2** — AI image generation (when intensity allows)
+- **Veo 3 / Gemini Video** — AI video generation (when intensity allows)
+- **ElevenLabs** — voiceover and audio
+- **Remotion** (`/remotion/`) — programmatic video rendering
+- **Postiz MCP** — social media publishing

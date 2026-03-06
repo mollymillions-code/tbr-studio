@@ -1,0 +1,26 @@
+{
+  "name": "tbr-remotion",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Remotion video rendering for TBR Studio",
+  "scripts": {
+    "studio": "remotion studio",
+    "render": "tsx src/render.ts",
+    "build": "remotion render src/index.ts TBRVideo out/video.mp4"
+  },
+  "dependencies": {
+    "@remotion/cli": "^4.0.0",
+    "@remotion/player": "^4.0.0",
+    "remotion": "^4.0.0",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
+    "tsx": "^4.21.0",
+    "zod": "^3.24.0",
+    "@remotion/bundler": "^4.0.0",
+    "@remotion/renderer": "^4.0.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.14",
+    "typescript": "^5.9.3"
+  }
+}
